@@ -24,7 +24,8 @@ jobs:
           ./github_name_control.sh ${{ github.repository }} >> ECR_REPOSITORY
           cat ECR_REPOSITORY
           echo "ECR_REPOSITORY=$(cat ECR_REPOSITORY)" >> $GITHUB_ENV
-          echo ${{ env.ECR_REPOSITORY }}
+          echo ECR_REPOSITORY=${{ env.ECR_REPOSITORY }}
+          echo IMAGE_NAME=${{ env.ECR_REPOSITORY }}:${{ github.sha }}
         working-directory: ./scripts
         shell: bash
 
