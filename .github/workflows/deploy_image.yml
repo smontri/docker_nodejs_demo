@@ -55,8 +55,8 @@ jobs:
         id: github_name_control
         run: |
           ./github_name_control.sh ${{ github.repository }} >> ECR_REPOSITORY
-          cat ECR_REGISTRY
-          echo "ECR_REGISTRY=$(cat ECR_REGISTRY)" >> $GITHUB_ENV
+          cat ECR_REPOSITORY
+          echo "ECR_REPOSITORY=$(cat ECR_REPOSITORY)" >> $GITHUB_ENV
           echo ${{ env.ECR_REPOSITORY }}
         working-directory: ./scripts
         shell: bash

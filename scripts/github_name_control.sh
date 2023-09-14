@@ -2,7 +2,7 @@
 
 # Check if a github name syntax provided as an argument
 if [ $# -eq 0 ]; then
-  echo "Usage: $0 <github_actor>"
+  echo "Usage: $0 <github>"
   exit 1
 fi
 
