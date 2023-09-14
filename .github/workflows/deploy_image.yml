@@ -18,7 +18,19 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v2
 
+      - name: Prerequisite - Github name control to convert to the AWS ECR REPOSITORY name expected format (underscore and uppercase removed)
+        id: github_name_control
+        run: |
+          ./github_name_control.sh ${{ github.repository }} >> ECR_REPOSITORY
+          cat ECR_REPOSITORY
+          echo "ECR_REPOSITORY=$(cat ECR_REPOSITORY)" >> $GITHUB_ENV
+          echo ${{ env.ECR_REPOSITORY }}
+        working-directory: ./scripts
+        shell: bash
+
       - name: Build the image
+        env:
+          IMAGE_NAME: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
         run: docker build -t $IMAGE_NAME .
 
       - name: Prisma Cloud image scan
@@ -47,16 +59,6 @@ jobs:
       - name: Login to Amazon ECR Registry
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Prerequisite - Github name control to convert to the AWS ECR REPOSITORY name expected format (underscore and uppercase removed)
-        id: github_name_control
-        run: |
-          ./github_name_control.sh ${{ github.repository }} >> ECR_REPOSITORY
-          cat ECR_REPOSITORY
-          echo "ECR_REPOSITORY=$(cat ECR_REPOSITORY)" >> $GITHUB_ENV
-          echo ${{ env.ECR_REPOSITORY }}
-        working-directory: ./scripts
-        shell: bash
 
       - name: Create AWS ECR repository
         uses: int128/create-ecr-repository-action@v1
