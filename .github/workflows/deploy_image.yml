@@ -8,9 +8,6 @@ on:
   push:
     branches: [ main ]
 
-env:
-  IMAGE_NAME: ${{ github.repository }}:${{ github.sha }}
-
 jobs:
 
   build-and-scan:
@@ -69,6 +66,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_NAME: ${{ env.ECR_REPOSITORY }}:${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$IMAGE_NAME .
           docker push $ECR_REGISTRY/$IMAGE_NAME
