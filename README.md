@@ -1,4 +1,4 @@
-# Build, scan and deploy a docker image to an AWS ECR registry securely with Prisma Cloud and GitHub Action.
+# Build, scan and deploy a docker image securely with Prisma Cloud and GitHub Action.
 
 
 
@@ -130,7 +130,18 @@ To build the image successfully, you can use node image's Latest tag, there are 
 
 **Note that there are no more high or critical vulnerabilities from IDE**
 
-2. Git commit and Push
+2. Git commit and Push and check from GitHub action that the build PASS
+
+![github-action-pass](images/github-action-pass.png)
+
+**Note that Vulnerability check result is PASS and Compliance check is PASS even if critical compliance alerts are lifted.**
+**This is because the Hard Fail rule has only been defined for vulnerability High findings.**
+
+3. From Prisma Cloud Console - Check CI Build result
+
+![prisma-ci-images-pass](images/prisma-ci-images-pass.png)
+
+![prisma-image-details-pass](images/prisma-image-details-pass.png)
 
 
 
