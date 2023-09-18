@@ -20,8 +20,8 @@ The image is tested and validated by Prisma Cloud, to check for vulnerabilities 
 
 ##### 1. Create a fork of the repository
 
-1. Login with your github account
-2. Open https://github.com/cleypanw/docker_nodejs_demo and click on Fork
+- Login with your github account
+- Open https://github.com/cleypanw/docker_nodejs_demo and click on Fork
 
 
 
@@ -61,12 +61,40 @@ Open **Settings > Security > Secrets and variables > Actions**
 
 <u>/!\ UNDER CONSTRUCTION /!\</u>
 
-Build, Scan and Deploy a simple NodeJS image to an AWS ECR Registry with GitHub Action and Prisma Cloud
+Build, Scan and Deploy a simple NodeJS image to an AWS ECR Registry with GitHub Action and Prisma Cloud.
 
-1. AWS ECR Repository is created during GitHub Action process (control if repository exists and create if not)
-2. Prisma Cloud checks vulnerabilities and compliance during build phase before pushing image to AWS ECR Registry
-3. Depending on Prisma Cloud configuration, the build may be rejected and deployment prohibited (Hard Fail). 
-4. Errors can be injected into the Dockerfile to force failure (for demonstration purposes) 
+
+
+1. **From GitHub** - Update GitHub Action Secrets
+
+   Go to **Settings => Secrets and Variables**
+
+![Secrets](images/variables_secrets.png)
+
+
+
+
+
+2. **From IDE** - Create Security Issue : example Edit Dockerfile to add SCA issues by using an [old node base image](https://hub.docker.com/_/node/tags) (here node:14)
+
+![ide](images/ide.png)
+
+***Note that High alerts are reported directly to the IDE***
+
+3. **From Prisma Cloud Console** -  Add New Vulnerabilities Images CI rule to alert / block  image that are built during CI
+
+   Go to **Compute => Defend => Vulnerabilities => Images => CI**
+
+   Set a Rule Name, Alert and Failure Threshold as following and Save
+
+   ![CI-rule](images/CI-rule.png)
+
+1. Depending on Prisma Cloud configuration, the build may be rejected and deployment prohibited (Hard Fail). 
+2. Errors can be injected into the Dockerfile to force failure (for demonstration purposes) 
+
+
+
+
 
 If you want to use the Prisma Cloud security control on your Dockerfile in your Github repo, you can.
 Usage: deploy this workflow in the GitHub repository containing your Dockerfile, update the variables and secret in your GitHub repository settings (Prisma Access/Secret Key, AWS Secret, etc.).
