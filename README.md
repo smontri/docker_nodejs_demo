@@ -59,9 +59,9 @@ Open **Settings > Security > Secrets and variables > Actions**
 
 #### Rollout
 
-<u>/!\ UNDER CONSTRUCTION /!\</u>
-
 Build, Scan and Deploy a simple NodeJS image to an AWS ECR Registry with GitHub Action and Prisma Cloud.
+
+This demonstration enables Prisma Cloud to fine-tune the management of new image builds, with the possibility of blocking deployment.
 
 
 
@@ -89,14 +89,49 @@ Build, Scan and Deploy a simple NodeJS image to an AWS ECR Registry with GitHub 
 
    ![CI-rule](images/CI-rule.png)
 
-1. Depending on Prisma Cloud configuration, the build may be rejected and deployment prohibited (Hard Fail). 
-2. Errors can be injected into the Dockerfile to force failure (for demonstration purposes) 
+
+
+4. **From Compute (IDE or CLI)** - Git commit and Git Push to trigger image building
+
+![git-push](images/git-push.png)
+
+5. **From GitHub** -  Check GitHub action steps and notice Prisma Cloud image scan step has failed
+
+![github-action](images/github-action.png)
+
+Click on step to view details
+
+![ci-output](images/ci-output.png)
+
+**Note that Vulnerability check result is FAIL and Compliance check is PASS even if critical compliance alerts are lifted.**
+**This is because the Hard Fail rule has only been defined for vulnerability High findings.**
+
+6. **From Prisma Cloud Console** - View CI build errors
+
+   Go to Compute => Monitor => Vulnerabilities => Images => CI 
+
+![prisma-ci-images](images/prisma-ci-images.png)
 
 
 
+![prisma-image-details](images/prisma-image-details.png)
+
+Prisma Cloud prevented the build and deployment of an image with critical vulnerabilities in the image registry.
 
 
-If you want to use the Prisma Cloud security control on your Dockerfile in your Github repo, you can.
-Usage: deploy this workflow in the GitHub repository containing your Dockerfile, update the variables and secret in your GitHub repository settings (Prisma Access/Secret Key, AWS Secret, etc.).
+
+#### Roll Out - PASS vulnerabilities 
+
+To build the image successfully, you can use node image's Latest tag, there are no more critical vulnerabilities and the build will be authorized by Prisma Cloud.
+
+1. Edit Dockerfile to use node:latest base image
+
+   ![ide-PASS](images/ide-PASS.png)
+
+**Note that there are no more high or critical vulnerabilities from IDE**
+
+2. Git commit and Push
+
+
 
 ### Author: Christopher LEY - cley@paloaltonetwork.com
